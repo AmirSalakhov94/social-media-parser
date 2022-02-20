@@ -1,10 +1,11 @@
-package socialmediaparser.ig.engine;
+package socialmediaparser.ig.service;
 
 import com.github.instagram4j.instagram4j.IGClient;
 import dto.ig.IgProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import socialmediaparser.ig.mapper.IgProfileMapper;
+import socialmediaparser.ig.provider.IgClientProvider;
 
 @Service
 @RequiredArgsConstructor

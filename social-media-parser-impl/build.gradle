@@ -13,6 +13,9 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    implementation 'org.springframework.batch:spring-batch-integration'
+    implementation "org.springframework.integration:spring-integration-amqp"
 
     implementation "com.github.instagram4j:instagram4j:${instagram4jVersion}"
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"

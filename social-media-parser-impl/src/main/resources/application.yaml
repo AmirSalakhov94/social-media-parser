@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: social-media-parser
+  cloud:
+    consul:
+      enabled: true
+      service-registry:
+        enabled: true
+      discovery:
+        register: true
+      host: ${CONSUL_HOST:localhost}
+      port: 8500
+    stream:
+      function:
+        definition: profilesParse
+      bindings:
+        receive-in-0:
+          binder: rabbit
+          destination: send-out-0
+          contentType: application/json
+          group: queue
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: ${RABBIT_HOST:localhost}
+                port: 5672
