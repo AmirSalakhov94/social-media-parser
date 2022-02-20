@@ -1,0 +1,14 @@
+task buildImage(type: Exec) {
+    commandLine "docker", "build", ".", "-t", "${dockerImageName}"
+    commandLine "docker", "build", ".", "-t", "${dockerImageName}:${dockerImageTag}"
+}
+
+task loginDocker(type: Exec) {
+    dependsOn buildImage
+    commandLine "docker", "login", "-u", "${dockerUsername}", "-p", "${dockerPassword}", "${dockerRegistryUrl}"
+}
+
+task pushImage(type: Exec) {
+    dependsOn loginDocker
+    commandLine "docker", "push", "${dockerImageName}:${dockerImageTag}"
+}

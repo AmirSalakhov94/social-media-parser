@@ -1,0 +1,43 @@
+bootJar.archiveFileName = "boot_${project.name}.jar"
+
+ext {
+    instagram4jVersion = '2.0.7'
+    mapStructVersion = '1.4.2.Final'
+    lombokBindingVersion = '0.2.0'
+    set('springCloudVersion', "2022.0.0-M1")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+
+    implementation "com.github.instagram4j:instagram4j:${instagram4jVersion}"
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+
+    api project(':social-media-parser-api')
+
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokBindingVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor('org.projectlombok:lombok')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+compileJava {
+    options.compilerArgs = ['-Amapstruct.defaultComponentModel=spring']
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

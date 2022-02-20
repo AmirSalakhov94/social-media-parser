@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.spring.io/milestone' }
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'social-media-parser'
+include 'social-media-parser-api'
+include 'social-media-parser-impl'
+
