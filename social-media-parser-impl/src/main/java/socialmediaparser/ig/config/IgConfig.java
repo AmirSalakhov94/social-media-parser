@@ -27,14 +27,14 @@ public class IgConfig {
     private final IgClientMetaApi igClientMetaApi;
 
     @Bean
-    IgClientProvider igClientProvider(Set<IGClient> igClients) {
+    public IgClientProvider igClientProvider(Set<IGClient> igClients) {
         IgClientProvider igClientProvider = new IgClientProvider();
         igClients.forEach(igClientProvider::addClient);
         return igClientProvider;
     }
 
     @Bean
-    Set<IGClient> igClients() {
+    public Set<IGClient> igClients() {
         Set<IGClient> igClients = new HashSet<>(CLIENT_COUNT);
         igClientMetaApi.getListClientMetaData(CLIENT_COUNT).forEach(
                 clientMetaData -> {

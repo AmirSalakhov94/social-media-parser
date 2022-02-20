@@ -16,11 +16,14 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
     implementation 'org.springframework.batch:spring-batch-integration'
     implementation "org.springframework.integration:spring-integration-amqp"
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
     implementation "com.github.instagram4j:instagram4j:${instagram4jVersion}"
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 
     api project(':social-media-parser-api')
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokBindingVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"

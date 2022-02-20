@@ -1,6 +1,5 @@
 package socialmediaparser.ig.batch.listener;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 
@@ -8,8 +7,7 @@ import java.util.UUID;
 
 import static socialmediaparser.ig.batch.consts.ParseBatchConsts.TRANSACTION_ID;
 
-@RequiredArgsConstructor
-public record ProfileParseJobListener() implements JobExecutionListener {
+public record ProfilesParserJobListener() implements JobExecutionListener {
 
     public void beforeJob(JobExecution jobExecution) {
         long jobId = jobExecution.getJobInstance().getId();

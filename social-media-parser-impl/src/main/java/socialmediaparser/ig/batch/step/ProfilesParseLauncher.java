@@ -19,7 +19,7 @@ import static socialmediaparser.ig.batch.consts.ParseBatchConsts.PARSED_PROFILES
 import static socialmediaparser.ig.batch.consts.ParseBatchConsts.TRANSACTION_ID;
 
 @RequiredArgsConstructor
-public record ProfilesParseLauncherStep(IgParser igParser, Map<String, List<String>> profilesMap) implements Tasklet {
+public record ProfilesParseLauncher(IgParser igParser, Map<String, List<String>> profilesMap) implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, @Nullable ChunkContext chunkContext) {
@@ -28,7 +28,7 @@ public record ProfilesParseLauncherStep(IgParser igParser, Map<String, List<Stri
         JobParameters jobParameters = jobExecution.getJobParameters();
         String transactionId = (String) jobParameters.getParameters().get(TRANSACTION_ID).getValue();
 
-        Set<IgProfile> parsedProfiles = profilesMap.get(transactionId)
+        Set<IgProfile> parsedProfiles = profilesMap.remove(transactionId)
                 .stream()
                 .map(igParser::getProfileInfo)
                 .collect(Collectors.toSet());
