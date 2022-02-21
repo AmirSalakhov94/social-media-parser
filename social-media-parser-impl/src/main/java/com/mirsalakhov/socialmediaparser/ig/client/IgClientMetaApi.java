@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface IgClientMetaApi {
 
-    Set<ClientMetaData> getListClientMetaData(int count);
+    Set<ClientMetaData> getFreeClients(int count);
 }
