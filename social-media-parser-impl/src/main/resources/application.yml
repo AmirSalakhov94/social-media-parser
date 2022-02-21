@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: social-media-parser
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5000}/${DB_NAME:social-media-parser}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+  data:
+    cassandra:
+      keyspace-name: ${CASSANDRA_KEYSPACE:social-media-parser-storage}
+      port: ${CASSANDRA_PORT:9042}
+      contact-points: ${CASSANDRA_CONTACT_POINTS:127.0.0.1}
+  cloud:
+    consul:
+      enabled: true
+      service-registry:
+        enabled: true
+      discovery:
+        register: true
+      host: ${CONSUL_HOST:localhost}
+      port: 8500
+    stream:
+      function:
+        definition: profilesParse
+      bindings:
+        receive-in-0:
+          binder: rabbit
+          destination: send-out-0
+          contentType: application/json
+          group: queue
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: ${RABBIT_HOST:localhost}
+                port: 5672

@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  social_media_parser:
+    container_name: social_media_parser
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    restart: on-failure
+    depends_on:
+      - social_media_parser_db
+      - social_media_parser_cassandra
+      - consul
+    expose:
+      - "8080"
+    networks:
+      - social-media-network
+    environment:
+      CONSUL_HOST: consul
+      DB_HOST: rco_auth_profile_db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      CASSANDRA_KEYSPACE: social-media-parser-storage
+      CASSANDRA_PORT: 9042
+      CASSANDRA_CONTACT_POINTS: 127.0.0.1
+
+  social_media_parser_db:
+    container_name: social_media_parser_db
+    image: postgres:13
+    restart: on-failure
+    expose:
+      - "5432"
+    networks:
+      - social-media-network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: social-media-parser
+
+  social_media_parser_cassandra:
+    container_name: social_media_parser_cassandra
+    image: cassandra:latest
+    expose:
+      - "9042"
+    networks:
+      - social-media-network
+    volumes:
+      - ~/apps/cassandra:/var/lib/cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: citizix
+
+  consul:
+    image: consul:1.10.1
+    command: agent -dev -ui -node=server1 -bootstrap-expect=1 -client=0.0.0.0
+    ports:
+      - 8500:8500
+    networks:
+      - social-media-network
+
+networks:
+  social-media-network:
+    external:
+      name: social-media-network
